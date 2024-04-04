@@ -1,5 +1,8 @@
 using fitnessAppApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.OpenApi;
+using fitnessAppApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,3 +32,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
