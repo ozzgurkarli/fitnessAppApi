@@ -7,6 +7,7 @@ using System.Text;
 
 namespace fitnessAppApi.Controllers
 {
+    #region public methods
     [Route("api/[controller]")]
     [ApiController]
     public class UserController(FitnessContext context) : ControllerBase
@@ -76,8 +77,9 @@ namespace fitnessAppApi.Controllers
 
             return CreatedAtAction(nameof(GetUser), new { id = model.Id }, model);
         }
+        #endregion public methods
 
-
+        #region private methods
         private User dtoToModel(DTOUser dto)
         {
             return new User { Name = dto.Name, Surname = dto.Surname, Email = dto.Email, BirthDate = Convert.ToDateTime(dto.BirthDate), Gender = dto.Gender, InvitationCode = dto.InvitationCode, RecordDate = DateTime.Now };
@@ -106,5 +108,6 @@ namespace fitnessAppApi.Controllers
 
             return stringBuilder.ToString();
         }
+        #endregion private methods
     }
 }
