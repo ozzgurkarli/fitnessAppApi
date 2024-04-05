@@ -12,5 +12,7 @@ namespace fitnessAppApi.DTO
 
         public string ProgramName { get; set; } = null!;
 
+        public ICollection<ProgramMove> ProgramMoves { get; set; } = null!;
+
     }
 }

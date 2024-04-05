@@ -14,7 +14,7 @@ namespace fitnessAppApi.Controllers
 
         #region public methods
 
-        [HttpGet("GetProgramsById")] 
+        [HttpGet("GetProgramsById")]
         public async Task<IActionResult> GetProgramsById(int? id)
         {
             if (id == null)
@@ -23,14 +23,15 @@ namespace fitnessAppApi.Controllers
             }
 
             Models.Program? model = await db.Program.FirstOrDefaultAsync(x => x.Id.Equals(id));
-             
-            if(model == null)
+
+            if (model == null)
             {
                 return NotFound();
             }
-            model.Moves = [new ProgramMove {Id = 5, MoveName = "ananınamı" }];
+            DTOProgram dto = modelToDto(model);
+            dto.ProgramMoves = await db.ProgramMove.Where(x => x.ProgramId.Equals(model.Id)).ToListAsync();
 
-            return Ok(modelToDto(model));
+            return Ok(dto);
         }
 
         [HttpPost("Create")]
@@ -59,12 +60,12 @@ namespace fitnessAppApi.Controllers
 
         private Models.Program dtoToModel(DTOProgram dto)
         {
-            return new Models.Program { Id = dto.Id, UserId = dto.UserId, ProgramName = dto.ProgramName, RecordDate = DateTime.Now, Moves = dto.Moves };
+            return new Models.Program { Id = dto.Id, UserId = dto.UserId, ProgramName = dto.ProgramName, RecordDate = DateTime.Now};
         }
 
         private DTOProgram modelToDto(Models.Program model)
         {
-            return new DTOProgram { Id = model.Id, UserId = model.UserId, ProgramName = model.ProgramName, Moves = model.Moves };
+            return new DTOProgram { Id = model.Id, UserId = model.UserId, ProgramName = model.ProgramName};
         }
 
         #endregion private methods

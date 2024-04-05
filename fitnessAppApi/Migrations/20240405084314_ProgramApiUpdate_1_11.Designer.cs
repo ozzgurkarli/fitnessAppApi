@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using fitnessAppApi.Models;
 
@@ -11,9 +12,11 @@ using fitnessAppApi.Models;
 namespace fitnessAppApi.Migrations
 {
     [DbContext(typeof(FitnessContext))]
-    partial class FitnessContextModelSnapshot : ModelSnapshot
+    [Migration("20240405084314_ProgramApiUpdate_1_11")]
+    partial class ProgramApiUpdate_1_11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,11 +132,13 @@ namespace fitnessAppApi.Migrations
 
             modelBuilder.Entity("fitnessAppApi.Models.ProgramMove", b =>
                 {
-                    b.HasOne("fitnessAppApi.Models.Program", null)
+                    b.HasOne("fitnessAppApi.Models.Program", "Program")
                         .WithMany("ProgramMoves")
                         .HasForeignKey("ProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("fitnessAppApi.Models.Program", b =>

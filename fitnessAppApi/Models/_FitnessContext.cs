@@ -6,7 +6,9 @@ namespace fitnessAppApi.Models
     {
         public DbSet<User> User { get; set; }
 
-        public DbSet<Program> Program { get; set; }
+        public DbSet<Models.Program> Program { get; set; }
+
+        public DbSet<ProgramMove> ProgramMove { get; set; }
 
         public DbSet<InvitationCode> InvitationCode { get; set; }
 
@@ -15,8 +17,6 @@ namespace fitnessAppApi.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<InvitationCode>().HasKey("UsedById");
-
-            modelBuilder.Entity<ProgramMove>().HasOne(c => c.Program).WithMany(p => p.Moves).HasForeignKey(c => c.ProgramId);
         }
     }
 }
