@@ -7,8 +7,8 @@ using fitnessAppApi.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<FitnessContext>(x => x.UseSqlServer("data source=localhost;initial catalog=FitnessApp;persist security info=True;TrustServerCertificate=True;Trusted_Connection=True; Integrated Security=SSPI;"));
-builder.Services.AddControllers();
+builder.Services.AddDbContext<FitnessContext>(x => x.UseSqlServer("data source=localhost;initial catalog=FitnessAppApi;persist security info=True;TrustServerCertificate=True;Trusted_Connection=True; Integrated Security=SSPI;"));
+builder.Services.AddControllers().AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

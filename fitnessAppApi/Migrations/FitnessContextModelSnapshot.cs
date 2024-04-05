@@ -129,11 +129,13 @@ namespace fitnessAppApi.Migrations
 
             modelBuilder.Entity("fitnessAppApi.Models.ProgramMove", b =>
                 {
-                    b.HasOne("fitnessAppApi.Models.Program", null)
+                    b.HasOne("fitnessAppApi.Models.Program", "Program")
                         .WithMany("ProgramMoves")
                         .HasForeignKey("ProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("fitnessAppApi.Models.Program", b =>

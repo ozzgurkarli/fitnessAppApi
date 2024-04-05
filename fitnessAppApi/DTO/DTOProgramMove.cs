@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace fitnessAppApi.Models
+namespace fitnessAppApi.DTO
 {
-    public class ProgramMove
+    public class DTOProgramMove
     {
-        [Key]
         public int Id { get; set; }
 
         public int MoveId { get; set; }
@@ -16,9 +14,7 @@ namespace fitnessAppApi.Models
 
         public string Muscle { get; set; } = null!;
 
-        [ForeignKey("Program")]
         public int ProgramId { get; set; }
 
-        public virtual Models.Program Program { get; set; }
     }
 }

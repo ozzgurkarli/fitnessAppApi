@@ -12,8 +12,8 @@ using fitnessAppApi.Models;
 namespace fitnessAppApi.Migrations
 {
     [DbContext(typeof(FitnessContext))]
-    [Migration("20240405083921_ProgramApiUpdate_1")]
-    partial class ProgramApiUpdate_1
+    [Migration("20240405151409_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

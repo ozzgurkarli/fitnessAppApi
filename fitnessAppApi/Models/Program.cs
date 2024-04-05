@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using fitnessAppApi.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace fitnessAppApi.Models
 {
@@ -10,6 +11,8 @@ namespace fitnessAppApi.Models
         public int UserId { get; set; }
 
         public string ProgramName { get; set; } = null!;
+
+        public virtual List<ProgramMove> ProgramMoves { get; set; }
 
         public DateTime RecordDate { get; set; }
     }

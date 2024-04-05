@@ -22,16 +22,32 @@ namespace fitnessAppApi.Controllers
                 return NotFound();
             }
 
-            Models.Program? model = await db.Program.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            Models.Program? model = await db.Program.Include(x=> x.ProgramMoves).FirstOrDefaultAsync(x=> x.Id.Equals(id));
 
             if (model == null)
             {
                 return NotFound();
             }
-            DTOProgram dto = modelToDto(model);
-            dto.ProgramMoves = await db.ProgramMove.Where(x => x.ProgramId.Equals(model.Id)).ToListAsync();
 
-            return Ok(dto);
+            return Ok(model);
+        }
+
+        [HttpGet("GetProgramsByUserId")]
+        public async Task<IActionResult> GetProgramsByUserId(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<Models.Program?> model = await db.Program.Where(x => x.UserId.Equals(id)).Include(x => x.ProgramMoves).ToListAsync();
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(model);
         }
 
         [HttpPost("Create")]
@@ -60,13 +76,16 @@ namespace fitnessAppApi.Controllers
 
         private Models.Program dtoToModel(DTOProgram dto)
         {
-            return new Models.Program { Id = dto.Id, UserId = dto.UserId, ProgramName = dto.ProgramName, RecordDate = DateTime.Now};
+            Models.Program model = new Models.Program{ Id = dto.Id, UserId = dto.UserId, ProgramName = dto.ProgramName, RecordDate = DateTime.Now, ProgramMoves = new List<ProgramMove>() };
+
+            dto.ProgramMoves.ForEach(_ =>
+            {
+                model.ProgramMoves.Add(new ProgramMove { Id = _.Id, Index = _.Index, MoveId = _.MoveId, MoveName = _.MoveName, Muscle = _.Muscle, ProgramId = model.Id });
+            });
+
+            return model;
         }
 
-        private DTOProgram modelToDto(Models.Program model)
-        {
-            return new DTOProgram { Id = model.Id, UserId = model.UserId, ProgramName = model.ProgramName};
-        }
 
         #endregion private methods
     }
