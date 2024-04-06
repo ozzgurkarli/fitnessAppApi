@@ -11,6 +11,10 @@ namespace fitnessAppApi.Models
 
         public DbSet<ProgramMove> ProgramMove { get; set; }
 
+        public DbSet<Workout> Workout { get; set; }
+
+        public DbSet<WorkoutMove> WorkoutMove { get; set; }
+
         public DbSet<InvitationCode> InvitationCode { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

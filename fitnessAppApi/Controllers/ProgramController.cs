@@ -1,4 +1,5 @@
-﻿using fitnessAppApi.DTO;
+﻿using AutoMapper;
+using fitnessAppApi.DTO;
 using fitnessAppApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,14 +9,15 @@ namespace fitnessAppApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProgramController(FitnessContext context) : ControllerBase
+    public class ProgramController(FitnessContext context, IMapper _mapper) : ControllerBase
     {
         private readonly FitnessContext db = context;
+        private readonly IMapper mapper = _mapper;
 
         #region public methods
 
-        [HttpGet("GetProgramsById")]
-        public async Task<IActionResult> GetProgramsById(int? id)
+        [HttpGet("GetProgramById")]
+        public async Task<IActionResult> GetProgramById(int? id)
         {
             if (id == null)
             {
@@ -40,7 +42,7 @@ namespace fitnessAppApi.Controllers
                 return NotFound();
             }
 
-            List<Models.Program?> model = await db.Program.Where(x => x.UserId.Equals(id)).Include(x => x.ProgramMoves).ToListAsync();
+            List<Models.Program> model = await db.Program.Where(x => x.UserId.Equals(id)).Include(x => x.ProgramMoves).ToListAsync();
 
             if (model == null)
             {
@@ -53,7 +55,7 @@ namespace fitnessAppApi.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Create(DTOProgram dto)
         {
-            Models.Program model = dtoToModel(dto);
+            Models.Program model = mapper.Map<Models.Program>(dto);
 
             db.Program.Add(model);
 
@@ -66,26 +68,13 @@ namespace fitnessAppApi.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction(nameof(GetProgramsById), new { Id = model.Id }, model);
+            return CreatedAtAction(nameof(GetProgramById), new { Id = model.Id }, model);
         }
 
         #endregion public methods
 
 
         #region private methods
-
-        private Models.Program dtoToModel(DTOProgram dto)
-        {
-            Models.Program model = new Models.Program{ Id = dto.Id, UserId = dto.UserId, ProgramName = dto.ProgramName, RecordDate = DateTime.Now, ProgramMoves = new List<ProgramMove>() };
-
-            dto.ProgramMoves.ForEach(_ =>
-            {
-                model.ProgramMoves.Add(new ProgramMove { Id = _.Id, Index = _.Index, MoveId = _.MoveId, MoveName = _.MoveName, Muscle = _.Muscle, ProgramId = model.Id });
-            });
-
-            return model;
-        }
-
 
         #endregion private methods
     }
