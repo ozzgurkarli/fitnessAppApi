@@ -52,6 +52,24 @@ namespace fitnessAppApi.Controllers
             return Ok(models);
         }
 
+        [HttpGet("GetWorkoutInLast12Hour")]
+        public async Task<IActionResult> GetWorkoutInLast12Hour(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            Workout? model = await db.Workout.Where(x => x.UserId.Equals(id)).Where(x => x.RecordDate.CompareTo(DateTime.Now.AddHours(-12)) == 1).Include(x=> x.WorkoutMoves).FirstOrDefaultAsync();
+
+            if(model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(model);
+        }
+
         [HttpPost("CreateByProgramId")]
         public async Task<IActionResult> CreateByProgramId(int? id)
         {
