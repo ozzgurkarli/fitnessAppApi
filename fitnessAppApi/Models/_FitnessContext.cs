@@ -17,6 +17,8 @@ namespace fitnessAppApi.Models
 
         public DbSet<InvitationCode> InvitationCode { get; set; }
 
+        public DbSet<Move> Move { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

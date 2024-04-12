@@ -16,6 +16,8 @@ namespace fitnessAppApi
             CreateMap<WorkoutMove, DTOWorkoutMove>();
             CreateMap<DTOWorkout, Workout>();
             CreateMap<DTOWorkoutMove, WorkoutMove>();
+            CreateMap<DTOMove, Move>();
+            CreateMap<Move, DTOMove>();
         }
     }
 }
