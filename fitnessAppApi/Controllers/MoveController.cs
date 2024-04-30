@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using fitnessAppApi.Constants;
+using fitnessAppApi.DTO;
 using fitnessAppApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,22 +29,24 @@ namespace fitnessAppApi.Controllers
             return Ok(model);
         }
 
-        [HttpGet("GetMovesByMuscleId")]
-        public async Task<IActionResult> GetMovesByMuscleId(int? id)
+        [HttpPost("GetMovesByMuscle")]
+        public async Task<IActionResult> GetMovesByMuscle(DTOMove dto)
         {
-            if (id == null)
+            Move model = mapper.Map<Models.Move>(dto);
+
+            if (model.Muscle == null)
             {
                 return BadRequest();
             }
 
-            List<Move> model = await database.Move.Where(x => x.MuscleId.Equals(id)).ToListAsync();
+            List<Move> list = await database.Move.Where(x => x.Muscle.Equals(model.Muscle)).ToListAsync();
 
-            if(model.IsNullOrEmpty())
+            if(list.IsNullOrEmpty())
             {
                 return BadRequest();
             }
 
-            return Ok(model);
+            return Ok(list);
         }
     }
 }
