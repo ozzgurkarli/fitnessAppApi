@@ -57,6 +57,9 @@ namespace fitnessAppApi.Controllers
         {
             Models.Program model = mapper.Map<Models.Program>(dto);
 
+            model.ProgramMoves.ForEach(_ => _.MoveId = getMoveIdByName(_.MoveName));
+            model.RecordDate = DateTime.Now;
+
             db.Program.Add(model);
 
             try
@@ -75,6 +78,10 @@ namespace fitnessAppApi.Controllers
 
 
         #region private methods
+        private int getMoveIdByName(string moveName)
+        {
+            return db.Move.Where(x => x.MoveName.Equals(moveName)).Select(x => x.Id).FirstOrDefault();
+        }
 
         #endregion private methods
     }

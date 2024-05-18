@@ -16,6 +16,8 @@ namespace fitnessAppApi.Controllers
         private readonly FitnessContext database = context;
         private readonly IMapper mapper = _mapper;
 
+        #region public methods
+
         [HttpGet("GetMoves")]
         public async Task<IActionResult> GetMoves()
         {
@@ -41,12 +43,17 @@ namespace fitnessAppApi.Controllers
 
             List<Move> list = await database.Move.Where(x => x.Muscle.Equals(model.Muscle)).ToListAsync();
 
-            if(list.IsNullOrEmpty())
+            if (list.IsNullOrEmpty())
             {
                 return BadRequest();
             }
 
             return Ok(list);
         }
+
+        #endregion public methods
+
+        #region private methods
+        #endregion private methods
     }
 }
