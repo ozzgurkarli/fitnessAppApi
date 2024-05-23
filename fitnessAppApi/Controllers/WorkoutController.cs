@@ -88,7 +88,7 @@ namespace fitnessAppApi.Controllers
             Workout model = new Workout { Completed = false, Duration = 0, ProgramId = program.Id, ProgramName = program.ProgramName, RecordDate = DateTime.Now, UserId = program.UserId, WorkoutMoves = new List<WorkoutMove>() };
 
             program.ProgramMoves.ForEach(_ =>
-                model.WorkoutMoves.Add(new WorkoutMove { Index = _.Index, MoveId = _.MoveId, MoveName = _.MoveName, Repeat = 0, SetCount = 0, Weight = 0 })
+                model.WorkoutMoves.Add(new WorkoutMove { Index = _.Index, MoveId = _.MoveId, MoveName = _.MoveName, Repeat = 0, SetCount = 0, Weight = 0, Muscle = _.Muscle })
             );
 
             db.Workout.Add(model);

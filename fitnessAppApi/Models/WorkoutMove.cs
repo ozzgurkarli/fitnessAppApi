@@ -12,6 +12,8 @@ namespace fitnessAppApi.Models
 
         public string MoveName { get; set; } = null!;
 
+        public string Muscle { get; set; } = null!;
+
         public int Index { get; set; }
 
         public int SetCount { get; set; }
