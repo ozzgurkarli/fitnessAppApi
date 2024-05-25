@@ -60,14 +60,14 @@ namespace fitnessAppApi.Controllers
                 return NotFound();
             }
 
-            Workout? model = await db.Workout.Where(x => x.UserId.Equals(id)).Where(x => x.RecordDate.CompareTo(DateTime.Now.AddHours(-12)) == 1).Include(x=> x.WorkoutMoves).FirstOrDefaultAsync();
+            List<Workout> modelList = await db.Workout.Where(x => x.UserId.Equals(id)).Where(x => x.RecordDate.CompareTo(DateTime.Now.AddHours(-12)) == 1).Include(x=> x.WorkoutMoves).ToListAsync();
 
-            if(model == null)
+            if(modelList == null || modelList.Count == 0)
             {
                 return NotFound();
             }
 
-            return Ok(model);
+            return Ok(modelList.OrderByDescending(x=> x.RecordDate).FirstOrDefault());
         }
 
         [HttpPost("CreateByProgramId")]
