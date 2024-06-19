@@ -25,6 +25,11 @@ namespace fitnessAppApi.Controllers
             model.Repeat += move.Repeat;
             model.Weight += (move.Repeat * move.Weight);
 
+            if (move.Weight > model.HighestWeight)
+            {
+                model.HighestWeight = move.Weight;
+            }
+
             await db.SaveChangesAsync();
 
             return Ok();

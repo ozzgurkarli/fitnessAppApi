@@ -21,6 +21,7 @@ namespace fitnessAppApi.Models
         public int Repeat { get; set; }
 
         public double Weight { get; set; }
+        public double HighestWeight { get; set; }
 
 
         [ForeignKey("Workout")]
