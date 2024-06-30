@@ -19,6 +19,10 @@ namespace fitnessAppApi.Models
 
         public bool Completed { get; set; }
 
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
         public DateTime RecordDate { get; set; }
 
         public virtual List<WorkoutMove> WorkoutMoves { get; set; }

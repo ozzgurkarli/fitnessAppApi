@@ -52,15 +52,36 @@ namespace fitnessAppApi.Controllers
             return Ok(models);
         }
 
-        [HttpGet("GetWorkoutInLast12Hour")]
-        public async Task<IActionResult> GetWorkoutInLast12Hour(int? id)
+        [HttpGet("CompleteWorkout")]
+        public async Task<IActionResult> CompleteWorkout(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Workout model = await db.Workout.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            model.Completed = true;
+            await db.SaveChangesAsync();
+
+            return Ok(model);
+        }
+
+        [HttpGet("GetWorkoutNotCompleted")]
+        public async Task<IActionResult> GetWorkoutNotCompleted(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
 
-            List<Workout> modelList = await db.Workout.Where(x => x.UserId.Equals(id)).Where(x => x.RecordDate.CompareTo(DateTime.Now.AddHours(-12)) == 1).Include(x=> x.WorkoutMoves).ToListAsync();
+            List<Workout> modelList = await db.Workout.Where(x => x.UserId.Equals(id)).Where(x => !x.Completed).Include(x=> x.WorkoutMoves).ToListAsync();
 
             if(modelList == null || modelList.Count == 0)
             {

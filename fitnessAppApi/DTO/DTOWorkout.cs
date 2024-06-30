@@ -17,6 +17,10 @@ namespace fitnessAppApi.DTO
 
         public bool Completed { get; set; }
 
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
         public DateTime RecordDate { get; set; }
 
         public virtual List<DTOWorkoutMove> WorkoutMoves { get; set; }
